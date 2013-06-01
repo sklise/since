@@ -83,29 +83,27 @@
   $(function() {
     FastClick.attach(document.body);
     $('.item-wrapper[class!="item-back"]').hammer().on("dragleft", function(event) {
-      event.gesture.preventDefault()
+      event.gesture.preventDefault();
 
       var front = $(this).find('.item-front');
-      var itemheight = front.height();
-      var threshold = itemheight / 3;
+      var item_width = front.width();
+      var threshold = item_width / 3;
 
-      front.css('top', event.gesture.deltaY+'px');
+      front.css('left', event.gesture.deltaX+'px');
 
-      if (event.gesture.deltaY > threshold) {
+      if (event.gesture.deltaX * -1 > threshold) {
         front.addClass('reset')
       }
     });
 
     $('.item-wrapper[class!="item-back"]').hammer().on("dragend", function (event) {
       var front = $(this).find('.item-front');
-      var itemheight = front.height();
-      var threshold = itemheight / 3;
 
-      if (event.gesture.deltaY > threshold) {
+      if (front.hasClass('reset')) {
         front.find('.item-counter').html('0');
       }
 
-      $(this).find('.item-front').css('top','auto');
+      $(this).find('.item-front').css('left','auto');
     });
 
     $('.item-wrapper').hammer().on("doubletap", function (event) {

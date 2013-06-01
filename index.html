@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Days Since!</title>
+  <meta name="application-name" content="currency.io">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="stylesheet" href="css/main.css" type="text/css" />
+</head>
+<body>
+  <div class="item-wrapper">
+    <div class="item-front" id="heck">
+      <div class="item-counter">4</div>
+      <div class="item-title">Jade</div>
+    </div>
+    <div class="item-back">
+      <p>Started on May 28</p>
+      <p>4 days, 3 hours</p>
+    </div>
+  </div>
+
+  <div class="item-wrapper">
+    <div class="item-front">
+      <div class="item-counter">4</div>
+      <div class="item-title">Jade</div>
+    </div>
+    <div class="item-back">
+      <p>Started on May 28</p>
+      <p>4 days, 3 hours</p>
+    </div>
+  </div>
+
+  <div class="item-wrapper">
+    <div class="item-front">
+      <div class="item-counter">4</div>
+      <div class="item-title">Jade</div>
+    </div>
+    <div class="item-back">
+      <p>Started on May 28</p>
+      <p>4 days, 3 hours</p>
+    </div>
+  </div>
+
+  <div class="item-wrapper">
+    <div class="item-front">
+      <div class="item-counter">4</div>
+      <div class="item-title">Jade</div>
+    </div>
+    <div class="item-back">
+      <p>Started on May 28</p>
+      <p>4 days, 3 hours</p>
+    </div>
+  </div>
+
+  <div class="item-wrapper">
+    <div class="item-front">
+      <div class="item-counter">14</div>
+      <div class="item-title">Jade</div>
+    </div>
+    <div class="item-back">
+      <p>Started on May 28</p>
+      <p>4 days, 3 hours</p>
+    </div>
+  </div>
+
+  <div class="item-wrapper">
+    <div class="item-front">
+      <div class="item-counter">0</div>
+      <div class="item-title">Jade</div>
+    </div>
+    <div class="item-back">
+      <p>Started on May 28</p>
+      <p>4 days, 3 hours</p>
+    </div>
+  </div>
+  <script src="js/fastclick.js" type="text/javascript"></script>
+  <script src="js/jquery2.js" type="text/javascript"></script>
+  <script src="js/hammer.js" type="text/javascript"></script>
+  <script>
+
+  $(function() {
+    FastClick.attach(document.body);
+    $('.item-wrapper[class!="item-back"]').hammer().on("dragleft", function(event) {
+      event.gesture.preventDefault()
+
+      var front = $(this).find('.item-front');
+      var itemheight = front.height();
+      var threshold = itemheight / 3;
+
+      front.css('top', event.gesture.deltaY+'px');
+
+      if (event.gesture.deltaY > threshold) {
+        front.addClass('reset')
+      }
+    });
+
+    $('.item-wrapper[class!="item-back"]').hammer().on("dragend", function (event) {
+      var front = $(this).find('.item-front');
+      var itemheight = front.height();
+      var threshold = itemheight / 3;
+
+      if (event.gesture.deltaY > threshold) {
+        front.find('.item-counter').html('0');
+      }
+
+      $(this).find('.item-front').css('top','auto');
+    });
+
+    $('.item-wrapper').hammer().on("doubletap", function (event) {
+      event.gesture.preventDefault();
+      $(this).toggleClass('show-back');
+      $(this).siblings().removeClass('show-back');
+    });
+
+    $('.item-front').hammer().on("release", function (event) {
+      $(this).removeClass('reset')
+    })
+  });
+  </script>
+</body>
+</html>

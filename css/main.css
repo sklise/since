@@ -12,7 +12,6 @@ html {
 }
 
 body {
-
   margin: 0;
   padding: 0;
   background: white;
@@ -70,4 +69,13 @@ body {
 
 .reset {
   background-color: red;
+}
+
+.new-item {
+  position: absolute;
+  background: white;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }

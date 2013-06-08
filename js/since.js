@@ -64,6 +64,7 @@ $(function() {
     initialize: function () {
       this.on("change", this.synchronize, this);
       this.on("add", this.synchronize, this);
+      this.on("remove", this.synchronize, this);
     },
 
     synchronize: function () {
@@ -85,6 +86,7 @@ $(function() {
       var view = this;
       this.collection.on('change', this.render, this);
       this.collection.on('add', this.render, this);
+      this.collection.on('remove', this.render, this);
     },
 
     events: {
@@ -179,9 +181,15 @@ $(function() {
 
       var front = this.$el.find('.item-front');
       var item_width = front.width();
-      var threshold = item_width / 3;
+      var threshold = item_width / 2;
 
       front.css('left', event.gesture.deltaX+'px');
+
+      if (event.gesture.deltaX * -1 > item_width * 7/8) {
+        this.$el.addClass('destroy');
+      } else {
+        this.$el.removeClass('destroy');
+      }
 
       if (event.gesture.deltaX * -1 > threshold) {
         front.addClass('reset');
@@ -195,6 +203,13 @@ $(function() {
 
       if (front.hasClass('reset')) {
         this.model.restart();
+      }
+
+      if (this.$el.hasClass('destroy')) {
+        var del = confirm("Remove Plant");
+        if (del === true) {
+          this.model.collection.remove(this.model);
+        }
       }
 
       this.$el.find('.item-front').css('left','auto');

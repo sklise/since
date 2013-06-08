@@ -78,6 +78,10 @@ p {
   background-color: red;
 }
 
+.destroy {
+  background-color: maroon;
+}
+
 .new-item {
   position: absolute;
   background: #f3ea00;

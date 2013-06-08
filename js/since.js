@@ -17,6 +17,8 @@ function datediff(start_time, end_time) {
 }
 
 $(function() {
+  FastClick.attach(document.body);
+
   var Item = Backbone.Model.extend({
     defaults: {
       "count": 0,
@@ -65,7 +67,6 @@ $(function() {
     },
 
     synchronize: function () {
-      console.log(this.toJSON());
       localStorage.info = JSON.stringify(this.toJSON());
     },
 
@@ -113,14 +114,23 @@ $(function() {
       $v.empty();
         var newView = new NewItemView({collection: view.collection});
         $v.append(newView.render().el);
+        newView.on('canceled', view.render, view);
     }
   });
 
   var NewItemView = Backbone.View.extend({
     className: 'new-item',
+    tagName: 'form',
 
     events: {
-      'click .save' : 'make'
+      'click .save' : 'make',
+      'click .cancel' : 'cancel',
+      'submit' : 'make'
+    },
+
+    cancel: function (event) {
+      event.preventDefault();
+      this.trigger('canceled');
     },
 
     make: function () {
@@ -144,7 +154,8 @@ $(function() {
     events: {
       'dragleft' : 'restartCount',
       'dragend' : 'dragEnd',
-      'release' : 'release'
+      'release' : 'release',
+      'doubletap' : 'flip'
     },
 
     render: function () {
@@ -155,6 +166,12 @@ $(function() {
       this.$el.hammer();
 
       return this;
+    },
+
+    flip: function(event) {
+      event.gesture.preventDefault();
+      this.$el.toggleClass('show-back');
+      this.$el.siblings().removeClass('show-back');
     },
 
     restartCount: function (event) {
@@ -168,6 +185,8 @@ $(function() {
 
       if (event.gesture.deltaX * -1 > threshold) {
         front.addClass('reset');
+      } else {
+        front.removeClass('reset');
       }
     },
 
@@ -187,16 +206,6 @@ $(function() {
     }
   });
 
-  var ItemFrontView = Backbone.View.extend({});
-  var ItemBackView = Backbone.View.extend({});
-
-  window.since = {
-    Item: Item,
-    Items: Items,
-    ItemView: ItemView,
-    AppView: AppView
-  }
-
   if (localStorage.info === undefined) {
     console.log('no info');
     var data = [{
@@ -215,11 +224,4 @@ $(function() {
   }
 
   window.appview = new AppView({collection: new Items(data)});
-
-  FastClick.attach(document.body);
-  $('.item-wrapper').hammer().on("doubletap", function (event) {
-    event.gesture.preventDefault();
-    $(this).toggleClass('show-back');
-    $(this).siblings().removeClass('show-back');
-  });
 });

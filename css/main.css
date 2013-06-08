@@ -8,7 +8,7 @@ html {
   background: black;
   height: 100%;
   width: 100%;
-  font-family: 'source sans pro', sans-serif;
+  font-family: 'Helvetica';
 }
 
 body {
@@ -80,11 +80,49 @@ p {
 
 .new-item {
   position: absolute;
-  background: orange;
+  background: #f3ea00;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  text-align: center;
+  padding: 1em 0
+}
+
+.new-item input {
+  -webkit-appearance: none;
+  border: none;
+  -webkit-border-radius: 4px;
+  font: inherit;
+  font-size: 24px;
+  margin: 0 auto 1em;
+}
+
+.new-item input[type="text"] {
+  display: block;
+  clear: both;
+  padding: 0.5em;
+}
+
+.new-item input[type="submit"] {
+  background: blue;
+  color: white;
+  display: block;
+  float: right;
+  margin: 0 0.5em;
+  padding: 12px 2em;
+  line-height: 24px;
+}
+
+.new-item .cancel {
+  color: black;
+  display: block;
+  float: left;
+  font-size: 18px;
+  line-height: 24px;
+  padding: 12px 1em;
+  vertical-align: bottom;
+  text-decoration: none;
 }
 
 .add {

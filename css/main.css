@@ -5,17 +5,23 @@
 }
 
 html {
-  background:black;
+  background: black;
   height: 100%;
   width: 100%;
-  font-family: 'source sans pro';
+  font-family: 'source sans pro', sans-serif;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background: white;
+  background: black;
+  font-size: 18px;
   height: 100%;
+}
+
+p {
+  margin: 0.25em 0;
+  padding: 0;
 }
 
 .item-wrapper {
@@ -29,17 +35,17 @@ body {
   overflow: hidden;
 }
 
-.item-front, .item-back {
+.item-front, .item-back, .add {
+  -webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5),
+    inset -1px -1px 1px rgba(0,0,0,0.25);
   height: 100%;
-  width: 100%;
-  padding: 5%;
+  padding: 10%;
   position: absolute;
+  width: 100%;
 }
 
 .item-front {
   background-color: #1481f8;
-  -webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5),
-    inset -1px -1px 1px rgba(0,0,0,0.25);
 }
 
 .item-counter {
@@ -56,7 +62,8 @@ body {
 
 .item-back {
   display: none;
-  background-color: #ccc;
+  background-color: #005826;
+  font-size: 14px;
 }
 
 .item-wrapper.show-back .item-front {
@@ -73,9 +80,17 @@ body {
 
 .new-item {
   position: absolute;
-  background: white;
+  background: orange;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+}
+
+.add {
+  background-color: #f3ea00;
+  background-image: url('/glyphicons_190_circle_plus@2x.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }

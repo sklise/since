@@ -1,3 +1,7 @@
+Handlebars.registerHelper('dateText', function (date) {
+  return moment(date).format("MMM Do, 'YY");
+});
+
 // http://stackoverflow.com/questions/1410285/calculating-the-difference-between-two-dates
 function datediff(start_time, end_time) {
   var d1 = (function () {
@@ -21,7 +25,7 @@ $(function() {
       "started": new Date()
     },
 
-    initialize: function () {
+    initialize: function (options) {
       // Set created_at and other defaults and id if new
       if (this.isNew()) {
         var now = new Date();
@@ -63,35 +67,52 @@ $(function() {
     synchronize: function () {
       console.log(this.toJSON());
       localStorage.info = JSON.stringify(this.toJSON());
+    },
+
+    sorted: function () {
+      return this.sortBy(function(item) {
+        return item.get('created_at');
+      })
     }
   });
 
 
   var AppView = Backbone.View.extend({
-    el: '#list',
+    el: '#wrapper',
     initialize: function () {
       this.collection.bind('reset', this.render().el, this);
+      var view = this;
+      this.collection.on('change', this.render, this);
+      this.collection.on('add', this.render, this);
     },
 
     events: {
       'click .add': 'new'
     },
 
-    new: function () {
-      this.$el.empty();
-      var newView = new NewItemView({collection: this.collection});
+    render: function () {
+      var $v = this.$el;
+      var view = this;
+      var template = Handlebars.compile($('#app-template').html());
+      $v.empty()
+        .html(template())
+        .hammer();
+      var sorted = this.collection.sorted();
+      _.forEach(sorted, function (model) {
+        var iv = new ItemView({model: model});
+        iv.on('restart', this.render);
+        $v.find("#list").append(iv.render().el);
+      });
 
-      this.$el.html(newView.render().el);
+      return this;
     },
 
-    render: function () {
-      this.$el.empty();
-      this.collection.each(function (model) {
-        var iv = new ItemView({model: model});
-        iv.render().el;
-      });
-      this.$el.append('<div class="add">NEW</div></div>');
-      return this;
+    new: function () {
+      var view = this;
+      var $v = view.$el;
+      $v.empty();
+        var newView = new NewItemView({collection: view.collection});
+        $v.append(newView.render().el);
     }
   });
 
@@ -130,7 +151,7 @@ $(function() {
       var view = this;
       var template = Handlebars.compile($('#item-template').html());
 
-      $('#list').append(this.$el.html(template(this.model.toJSON())));
+      this.$el.html(template(this.model.toJSON()));
       this.$el.hammer();
 
       return this;
@@ -161,7 +182,8 @@ $(function() {
     },
 
     release: function (event) {
-      this.render().el;
+      this.$el.find('.item-front').removeClass('reset');
+      this.trigger('restart');
     }
   });
 
@@ -175,11 +197,26 @@ $(function() {
     AppView: AppView
   }
 
-  js = JSON.parse(localStorage.info);
-  window.appview = new AppView({collection: new Items(js)});
+  if (localStorage.info === undefined) {
+    console.log('no info');
+    var data = [{
+      title: "Plant 1",
+      created_at: "1368489600000",
+      started: new Date(1368489600000),
+      id: "1368489600000"
+    }, {
+      title: "Plant 2",
+      created_at: "1370390400000",
+      started: new Date(1370390400000),
+      id: "1370390400000"
+    }];
+  } else {
+    var data = JSON.parse(localStorage.info);
+  }
+
+  window.appview = new AppView({collection: new Items(data)});
 
   FastClick.attach(document.body);
-
   $('.item-wrapper').hammer().on("doubletap", function (event) {
     event.gesture.preventDefault();
     $(this).toggleClass('show-back');

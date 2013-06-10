@@ -145,7 +145,8 @@ $(function() {
     events: {
       'click .save' : 'make',
       'click .cancel' : 'cancel',
-      'submit' : 'make'
+      'submit' : 'make',
+      'keypress input' : 'limit'
     },
 
     cancel: function (event) {
@@ -163,6 +164,11 @@ $(function() {
       this.$el.empty();
       this.$el.html(template());
       return this;
+    },
+
+    limit: function () {
+      var input = this.$el.find('input[type="text"]');
+      if (input.val().length > 12) { return false; }
     }
   });
 

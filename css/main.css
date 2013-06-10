@@ -171,6 +171,9 @@ p {
   display: block;
   clear: both;
   padding: 0.5em;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .new-item input[type="submit"] {
@@ -178,7 +181,7 @@ p {
   color: white;
   display: block;
   float: right;
-  margin: 0 0.5em;
+  margin: 0 5% 0.5em 0;
   padding: 12px 2em;
   line-height: 24px;
 }
@@ -187,11 +190,12 @@ p {
   color: black;
   display: block;
   float: left;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 24px;
   padding: 12px 1em;
   vertical-align: bottom;
   text-decoration: none;
+  margin-left: 5%;
 }
 
 .add {

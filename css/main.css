@@ -46,6 +46,11 @@ p {
   background-color: #1481f8;
 }
 
+.item-wrapper:nth-child(4n) .item-front,
+.item-wrapper:nth-child(4n+1) .item-front {
+  background-image: url('../screen.png');
+}
+
 .item-counter {
   font-size: 72px;
   position: absolute;

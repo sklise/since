@@ -10,7 +10,7 @@ $(function() {
   };
 
   // Return minimum of two values, for use with theme max count.
-  Handlebars.registerHelper('min', function(v1, v2) {
+  Handlebars.registerHelper('minCount', function(v1, v2) {
     return Math.min(v1, v2);
   });
 
@@ -41,7 +41,10 @@ $(function() {
       "total" : 0,
       "resets" : 0,
       "started": new Date(),
-      "theme" : "plant"
+      "min" : "-",
+      "max" : "-",
+      "theme" : "plant",
+      "starts" : []
     },
 
     initialize: function (options) {
@@ -64,14 +67,38 @@ $(function() {
     },
 
     restart: function () {
+      var model = this;
+
+
+
+      var started = this.get('started');
       var total = this.get('total');
-      var count = this.get('count');
+      var count = this.makeCount();
       var resets = this.get('resets');
+      var starts = this.get('starts');
+
+      starts.push(started);
+
       this.set({
+        'starts' : starts,
         'total': total + count,
         'resets': resets + 1,
         'started': new Date(),
-        'count': 0
+        'count': 0,
+        'min' : (function(){
+          if(typeof model.get('min') !== "number"){
+            return count
+          } else {
+            return Math.min(model.get('min'), count)
+          }
+        })(),
+        'max' : (function(){
+          if(typeof model.get('max') !== "number"){
+            return count
+          } else {
+            return Math.max(model.get('max'), count);
+          }
+        })()
       });
     }
   });

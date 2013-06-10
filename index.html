@@ -25,11 +25,11 @@
   </script>
 
   <script type="text/template" id="item-template">
-    <div class="item-front">
+    <div class="item-front count_{{min theme_max count}} theme_{{theme}}">
       <div class="item-counter">{{ count }}</div>
       <div class="item-title">{{ title }}</div>
     </div>
-    <div class="item-back">
+    <div class="item-back theme_{{theme}}">
       <p>{{title}}</p>
       <p>Started: {{ dateText started }}</p>
     </div>

@@ -1,22 +1,38 @@
-Handlebars.registerHelper('dateText', function (date) {
-  return moment(date).format("MMM Do, 'YY");
-});
-
-// http://stackoverflow.com/questions/1410285/calculating-the-difference-between-two-dates
-function datediff(start_time, end_time) {
-  var d1 = (function () {
-    if (typeof start_time === "Date") {
-      return start_time.getTime();
-    } else {
-      return (new Date(start_time)).getTime();
-    }
-  }());
-  var d2 = end_time.getTime();
-  var oneday = 86400000;
-  return (d2-d1) / oneday;
-}
-
 $(function() {
+  // Keep track of themes as defined in CSS. For the time being, there is a set
+  // maximum to the theme counts, until I think of a way to accomodate changes
+  // in counts that stay low, but also counts that get big.
+  var themes = {
+    'plant' : {
+      title: 'plant',
+      max: '7'
+    }
+  };
+
+  // Return minimum of two values, for use with theme max count.
+  Handlebars.registerHelper('min', function(v1, v2) {
+    return Math.min(v1, v2);
+  });
+
+  Handlebars.registerHelper('dateText', function (date) {
+    return moment(date).format("MMM Do, 'YY");
+  });
+
+  // http://stackoverflow.com/questions/1410285/calculating-the-difference-between-two-dates
+  var datediff = function (start_time, end_time) {
+    var d1 = (function () {
+      if (typeof start_time === "Date") {
+        return start_time.getTime();
+      } else {
+        return (new Date(start_time)).getTime();
+      }
+    }());
+    var d2 = end_time.getTime();
+    var oneday = 86400000;
+    return (d2-d1) / oneday;
+  }
+
+  // Start FastClick to speed up clicks on iOS.
   FastClick.attach(document.body);
 
   var Item = Backbone.Model.extend({
@@ -24,7 +40,8 @@ $(function() {
       "count": 0,
       "total" : 0,
       "resets" : 0,
-      "started": new Date()
+      "started": new Date(),
+      "theme" : "plant"
     },
 
     initialize: function (options) {
@@ -36,6 +53,7 @@ $(function() {
           'id': now.getTime()
         });
       }
+      this.set('theme_max', themes[this.get('theme')].max);
       this.set('count', this.makeCount());
     },
 
@@ -192,16 +210,14 @@ $(function() {
       }
 
       if (event.gesture.deltaX * -1 > threshold) {
-        front.addClass('reset');
+        this.$el.addClass('reset');
       } else {
-        front.removeClass('reset');
+        this.$el.removeClass('reset');
       }
     },
 
     dragEnd: function (event) {
-      var front = this.$el.find('.item-front');
-
-      if (front.hasClass('reset')) {
+      if (this.$el.hasClass('reset')) {
         this.model.restart();
       }
 
@@ -222,18 +238,21 @@ $(function() {
   });
 
   if (localStorage.info === undefined) {
-    console.log('no info');
-    var data = [{
-      title: "Plant 1",
-      created_at: "1368489600000",
-      started: new Date(1368489600000),
-      id: "1368489600000"
-    }, {
-      title: "Plant 2",
-      created_at: "1370390400000",
-      started: new Date(1370390400000),
-      id: "1370390400000"
-    }];
+    // There is no data, generate a fake set of info, to kinda show how the
+    // app works.
+    today = new Date();
+    var data = [];
+
+    // Populate with the following counts
+    _.each([0,1,2,3,4,6,10], function (i) {
+      time = moment(today).subtract("days", i).toDate()
+      data.push({
+        title: "Plant " + i,
+        created_at: time.getTime(),
+        started: time,
+        id: "" + time.getTime() + ""
+      });
+    });
   } else {
     var data = JSON.parse(localStorage.info);
   }

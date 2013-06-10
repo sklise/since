@@ -19,6 +19,14 @@ body {
   height: 100%;
 }
 
+/* .item-back "since" read out */
+h3 {
+  font-size: 100%;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
 p {
   margin: 0.25em 0;
   padding: 0;
@@ -26,13 +34,35 @@ p {
 
 .item-wrapper {
   background-color: #333;
-  -webkit-box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5), inset -1px -1px 3px rgba(0,0,0,0.5);
   float: left;
   position: relative;
   width: 50%;
   height: 0;
   padding-bottom: 50%;
+  -webkit-perspective: 800px;
   overflow: hidden;
+}
+
+.item-wrapper:nth-child(4n) .item-front,
+.item-wrapper:nth-child(4n+1) .item-front {
+  background-image: url('../screen.png');
+}
+
+.item-wrapper.dragging {
+  -webkit-box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5), inset -1px -1px 3px rgba(0,0,0,0.5);
+}
+
+.card-holder {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 0.45s;
+  -webkit-transform-origin: right center;
+}
+
+.card-holder div {
+  -webkit-backface-visibility: hidden;
 }
 
 .item-front, .item-back, .add {
@@ -46,36 +76,15 @@ p {
   background-color: #1481f8;
 }
 
-.item-wrapper:nth-child(4n) .item-front,
-.item-wrapper:nth-child(4n+1) .item-front {
-  background-image: url('../screen.png');
-}
-
-.item-counter {
-  font-size: 72px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  text-align: center;
-  height: 0;
-  padding-top: 50%;
-  padding-bottom: 50%;
-  line-height: 0;
-}
-
 .item-back {
   background-color: #005826;
   -webkit-box-shadow: inset 1px 1px 3px rgba(0,0,0,0.4), inset -1px -1px 3px rgba(0,0,0,0.4);
-  display: none;
   font-size: 14px;
+  -webkit-transform: rotateY( 180deg );
 }
 
-.item-wrapper.show-back .item-front {
-  display: none;
-}
-
-.item-wrapper.show-back .item-back {
-  display: block;
+.show-back .card-holder {
+  -webkit-transform: translateX(-100%) rotateY( -180deg );
 }
 
 .reset, .destroy {
@@ -88,6 +97,18 @@ p {
 
 .destroy {
   background-color: red;
+}
+
+.item-counter {
+  font-size: 72px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  height: 0;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  line-height: 0;
 }
 
 .new-item {

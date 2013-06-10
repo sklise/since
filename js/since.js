@@ -172,7 +172,7 @@ $(function() {
     initialize: function () {},
 
     events: {
-      'dragleft' : 'restartCount',
+      'dragleft' : 'dragging',
       'dragend' : 'dragEnd',
       'release' : 'release',
       'doubletap' : 'flip'
@@ -194,17 +194,21 @@ $(function() {
       this.$el.siblings().removeClass('show-back');
     },
 
-    restartCount: function (event) {
+    dragging: function (event) {
       event.gesture.preventDefault();
 
+      if (this.$el.hasClass('show-back')) { return; }
+
+      this.$el.addClass('dragging');
       var front = this.$el.find('.item-front');
       var item_width = front.width();
-      var threshold = item_width / 2;
+      var threshold = item_width * 3/8;
 
       front.css('left', event.gesture.deltaX+'px');
+      this.$el.siblings().removeClass('show-back');
 
       if (event.gesture.deltaX * -1 > item_width * 7/8) {
-        this.$el.addClass('destroy');
+        this.$el.addClass('destroy').removeClass('reset');
       } else {
         this.$el.removeClass('destroy');
       }
@@ -217,21 +221,17 @@ $(function() {
     },
 
     dragEnd: function (event) {
-      if (this.$el.hasClass('reset')) {
-        this.model.restart();
-      }
+      this.$el.find('.item-front').css('left','auto');
 
       if (this.$el.hasClass('destroy')) {
-        var del = confirm("Remove Plant");
-        if (del === true) {
-          this.model.collection.remove(this.model);
-        }
+        this.model.collection.remove(this.model);
+      } else if (this.$el.hasClass('reset')) {
+        this.model.restart();
       }
-
-      this.$el.find('.item-front').css('left','auto');
     },
 
     release: function (event) {
+      this.$el.removeClass('dragging');
       this.$el.find('.item-front').removeClass('reset');
       this.trigger('restart');
     }

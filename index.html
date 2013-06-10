@@ -2,10 +2,10 @@
 <html lang="en" manifest="offline.appcache">
 <head>
   <title>Days Since!</title>
-  <meta name="application-name" content="currency.io">
+  <meta name="application-name" content="Days Since">
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <link rel="stylesheet" href="css/main.css" type="text/css" />
 </head>
@@ -25,14 +25,16 @@
   </script>
 
   <script type="text/template" id="item-template">
+  <div class="card-holder">
     <div class="item-front count_{{min theme_max count}} theme_{{theme}}">
       <div class="item-counter">{{ count }}</div>
       <div class="item-title">{{ title }}</div>
     </div>
     <div class="item-back theme_{{theme}}">
+      <h3>Since {{ dateText started }}</h3>
       <p>{{title}}</p>
-      <p>Started: {{ dateText started }}</p>
     </div>
+  </div>
   </script>
 
   <script src="js/libraries/fastclick.js" type="text/javascript"></script>

@@ -244,7 +244,7 @@ $(function() {
     var data = [];
 
     // Populate with the following counts
-    _.each([0,1,2,3,4,6,10], function (i) {
+    _.each([0,1,2,3,4,6,10,340], function (i) {
       time = moment(today).subtract("days", i).toDate()
       data.push({
         title: "Plant " + i,

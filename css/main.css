@@ -1,3 +1,22 @@
+@font-face {
+    font-family: 'SourceSansProLight';
+    src: url('../font/SourceSansPro-Light-webfont.woff') format('woff'),
+         url('../font/SourceSansPro-Light-webfont.ttf') format('truetype'),
+         url('../font/SourceSansPro-Light-webfont.svg#SourceSansProLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceSansProRegular';
+    src: url('../font/SourceSansPro-Regular-webfont.woff') format('woff'),
+         url('../font/SourceSansPro-Regular-webfont.ttf') format('truetype'),
+         url('../font/SourceSansPro-Regular-webfont.svg#SourceSansProRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -8,7 +27,7 @@ html {
   background: black;
   height: 100%;
   width: 100%;
-  font-family: 'Helvetica';
+  font-family: 'SourceSansProLight', 'Helvetica Neue';
 }
 
 body {
@@ -19,6 +38,32 @@ body {
   height: 100%;
 }
 
+/* item title */
+h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: normal;
+  text-align: center;
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 24px;
+}
+
+.item-counter {
+  font-size: 80px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 100%;
+  bottom: 14px;
+  text-align: center;
+}
+
+
 /* .item-back "since" read out */
 h3 {
   font-size: 100%;
@@ -27,9 +72,21 @@ h3 {
   padding: 0;
 }
 
+h4 {
+  font-family: 'SourceSansProRegular';
+  margin: 0 0 0.5em 0;
+  padding: 0;
+  line-height: 1.6em;
+  font-size: 1.25em;
+}
+
 p {
   margin: 0.25em 0;
   padding: 0;
+}
+
+#wrapper {
+  width: 320px;
 }
 
 .item-wrapper {
@@ -67,28 +124,19 @@ p {
 
 .item-front, .item-back, .add {
   height: 100%;
-  padding: 10%;
   position: absolute;
   width: 100%;
 }
 
-.item-front {
-  background-color: #1481f8;
-}
-
 .item-back {
-  background-color: #005826;
   -webkit-box-shadow: inset 1px 1px 3px rgba(0,0,0,0.4), inset -1px -1px 3px rgba(0,0,0,0.4);
   font-size: 14px;
+  padding: 10%;
   -webkit-transform: rotateY( 180deg );
 }
 
 .show-back .card-holder {
   -webkit-transform: translateX(-100%) rotateY( -180deg );
-}
-
-.reset, .destroy {
-  -webkit-box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5), inset -1px -1px 3px rgba(0,0,0,0.5);
 }
 
 .reset {
@@ -97,18 +145,6 @@ p {
 
 .destroy {
   background-color: red;
-}
-
-.item-counter {
-  font-size: 72px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  text-align: center;
-  height: 0;
-  padding-top: 50%;
-  padding-bottom: 50%;
-  line-height: 0;
 }
 
 .new-item {

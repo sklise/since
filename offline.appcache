@@ -17,3 +17,11 @@ glyphicons_190_circle_plus@2x.png
 screen.png
 
 /since/
+
+# fonts
+font/SourceSansPro-Regular-webfont.svg
+font/SourceSansPro-Regular-webfont.woff
+font/SourceSansPro-Regular-webfont.ttf
+font/SourceSansPro-Light-webfont.woff
+font/SourceSansPro-Light-webfont.ttf
+font/SourceSansPro-Light-webfont.svg

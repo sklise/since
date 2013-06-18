@@ -1,6 +1,6 @@
 # Days Since
 
-A web app for iOS to keep track of when I last watered my plants.
+A web app for iOS to keep track of when things happened last.
 
 ## Sources
 - https://github.com/benschwarz/currency.io
